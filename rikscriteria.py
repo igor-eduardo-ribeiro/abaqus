@@ -3,7 +3,9 @@ import os
 
 # as default, stopcriteria function will try to access job data for two minutes, 
 # if it is not possible it will break the while loop so it does not run endlessly.
-def stopcriteria(jobname, run = True, sleeptime = 15, Maxchecks = 9):
+# criteria number difine the stop criteria:
+# [0] to stop when achieve the maximum LPF value, [1] to stop when achieve negative LPF values
+def stopcriteria(jobname, criteria=0, run=True, sleeptime=15, Maxchecks=9):
     n = 0
     LPF_list = []
 
@@ -27,9 +29,18 @@ def stopcriteria(jobname, run = True, sleeptime = 15, Maxchecks = 9):
                 if len(fields) > 0:
                     if fields[0] == '1':
                         LPFvalue = float(fields[6])
+
                         if LPFvalue not in LPF_list:
                             LPF_list.append(LPFvalue)
-                        if len(LPF_list) > 2 and LPF_list[-1] < LPF_list[-2]:
+
+                        if criteria == 0 and len(LPF_list) > 2 and LPF_list[-1] < LPF_list[-2]:
+                            os.system('abaqus terminate job=' + jobname)
+                            print('Job {} has converged successully'.format(jobname))
+                            print(LPF_list)
+                            run = False
+                            status_file.close()
+
+                        elif criteria == 1 and len(LPF_list) > 2 and LPF_list[-1] < 0:
                             os.system('abaqus terminate job=' + jobname)
                             print('Job {} has converged successully'.format(jobname))
                             print(LPF_list)
