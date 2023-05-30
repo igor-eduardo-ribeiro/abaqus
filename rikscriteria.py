@@ -3,7 +3,7 @@ import os
 
 # as default, stopcriteria function will try to access job data for two minutes, 
 # if it is not possible it will break the while loop so it does not run endlessly.
-# criteria number difine the stop criteria:
+# criteria number define the stop criteria:
 # [0] to stop when achieve the maximum LPF value, [1] to stop when achieve negative LPF values
 def stopcriteria(jobname, criteria=0, run=True, sleeptime=15, Maxchecks=9):
     n = 0
