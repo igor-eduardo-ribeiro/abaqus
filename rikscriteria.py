@@ -35,14 +35,14 @@ def stopcriteria(jobname, criteria=0, run=True, sleeptime=15, Maxchecks=9):
 
                         if criteria == 0 and len(LPF_list) > 2 and LPF_list[-1] < LPF_list[-2]:
                             os.system('abaqus terminate job=' + jobname)
-                            print('Job {} has converged successully'.format(jobname))
+                            print('Job {} has converged successfully'.format(jobname))
                             print(LPF_list)
                             run = False
                             status_file.close()
 
                         elif criteria == 1 and len(LPF_list) > 2 and LPF_list[-1] < 0:
                             os.system('abaqus terminate job=' + jobname)
-                            print('Job {} has converged successully'.format(jobname))
+                            print('Job {} has converged successfully'.format(jobname))
                             print(LPF_list)
                             run = False
                             status_file.close()
@@ -53,6 +53,6 @@ def stopcriteria(jobname, criteria=0, run=True, sleeptime=15, Maxchecks=9):
         except:
             if n >= Maxchecks:
                 os.system('abaqus terminate job=' + jobname)
-                print('ERROR: job has aborted due to limit of time to start running')
+                print('ERROR: job has been aborted due to limit of time to start running')
                 run = False
             continue
